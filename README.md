@@ -9,11 +9,13 @@ Above you will find links to all of my data analytics projects using the followi
 - Power BI
 - Python
 
-My GitHub is a work in progress but will be regularly be update with new projects using the above data tools! 😊
+My GitHub is currently a work in progress but will be updated regularly with new projects using the above data tools! 😊
 
-📫 How to reach me Via Linkedin (www.linkedin.com/in/jordan-platts-ab52b5196) or email (Jordanplatts.jp@outlook.com)
+📫 You can reach my via:
+- Linkedin: www.linkedin.com/in/jordan-platts-ab52b5196
+- Email: Jordanplatts.jp@outlook.com
 
-⚡ Fun fact: I enjoy sport especially football and F1 so expect a lot of sports projects here
+⚡ Fun fact: I enjoy sport, especially football (support the biggest club in the world and the only team called United) and F1
 
 <!---
 JordanPlatts98-DA/JordanPlatts98-DA is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
