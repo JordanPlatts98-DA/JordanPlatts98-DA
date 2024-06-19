@@ -15,8 +15,6 @@ My GitHub is currently a work in progress but will be updated regularly with new
 - Linkedin: www.linkedin.com/in/jordan-platts-ab52b5196
 - Email: Jordanplatts.jp@outlook.com
 
-⚡ Fun fact: I enjoy sport, especially football (support the biggest club in the world and the only team called United) and F1
-
 <!---
 JordanPlatts98-DA/JordanPlatts98-DA is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 You can click the Preview link to take a look at your changes.
