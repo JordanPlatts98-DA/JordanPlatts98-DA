@@ -1,0 +1,129 @@
+# Analysing students' mental health in SQL
+
+# Does going to university in a different country affect your mental health? A Japanese international university surveyed its students in 2018 and published a study the following year that was approved by several ethical and regulatory boards.
+# The study found that international students have a higher risk of mental health difficulties than the general population, and that social connectedness (belonging to a social group) and acculturative stress (stress associated with joining a new culture) are predictive of depression.
+# We will be exploring a students data set using PostgreSQL to find out if you would come to a similar conclusion for international students and see if the length of stay is a contributing factor.
+
+# Description of tables used:
+  # inter_dom - types of students (international or domestic)
+  # japanese_cate - japanese language proficiency 
+  # english_cate - english language proficiency 
+  # academic - current academic level (undergraduate or graduate)
+  # age - age of student
+  # stay - current length of stay in years
+  # todep - total score of depressions (PHQ-9 test)
+  # tosc - total score of social connectedness (SCS test)
+  # toas - total score of acculturative stress (ASISS test)
+
+# EDA
+# 1. Total record of students 
+
+SELECT COUNT(*) AS total_records
+FROM students;
+
+# 2. Count of students with an associated type (Domestic or International student)
+
+SELECT COUNT(inter_dom) AS count_inter_dom
+FROM students;
+
+# 3. Count of each type of student (Domestic or International)
+
+SELECT inter_dom, COUNT(inter_dom) AS count_inter_dom
+FROM students
+GROUP BY inter_dom;
+
+# 4. Regional distribution of students 
+
+SELECT inter_dom AS student_type, region
+FROM students
+GROUP BY inter_dom, region
+ORDER BY student_type, region;
+
+# Statistical summaru calculations
+
+# 1. Statistical summary for all students for Total Score of Depression (todep)
+
+SELECT inter_dom AS student_type,
+	ROUND(MIN(todep), 2) AS min_todep, 
+	ROUND(MAX(todep), 2) AS max_todep,
+	ROUND(AVG(todep), 2) AS avg_todep
+FROM students
+GROUP BY inter_dom;
+
+# 2. Statistical summary for all students for Total Score of Social Connectedness (tocs)
+
+SELECT inter_dom AS student_type,
+	ROUND(MIN(tosc), 2) AS min_tosc, 
+	ROUND(MAX(tosc), 2) AS max_tosc,
+	ROUND(AVG(tosc), 2) AS avg_tosc
+FROM students
+GROUP BY inter_dom;
+
+# 3. Statisitical summary for all students for Total Score of Acculturative Stress (toas)
+
+SELECT inter_dom AS student_type,
+	ROUND(MIN(toas), 2) AS min_toas, 
+	ROUND(MAX(toas), 2) AS max_toas,
+	ROUND(AVG(toas), 2) AS avg_toas
+FROM students
+GROUP BY inter_dom;
+
+# 4. Statistical summary for Domestic students only for 'todep', 'tosc', 'toas'
+
+SELECT inter_dom AS student_type,
+	ROUND(MIN(todep), 2) AS min_todep,
+	ROUND(MAX(todep), 2) AS max_todep,
+	ROUND(AVG(todep), 2) AS avg_todep,
+	ROUND(MIN(tosc), 2) AS min_tosc,
+	ROUND(MAX(tosc), 2) AS max_tosc,
+	ROUND(AVG(tosc), 2) AS avg_tosc,
+	ROUND(MIN(toas), 2) AS min_toas,
+	ROUND(MAX(toas), 2) AS max_toas,
+	ROUND(AVG(toas), 2) AS avg_toas
+FROM students
+WHERE inter_dom = 'Dom'
+GROUP BY inter_dom;
+
+# 5. Statistical summary for International students only for 'todep', 'tosc', 'toas'
+
+SELECT inter_dom AS student_type,
+	ROUND(MIN(todep), 2) AS min_todep,
+	ROUND(MAX(todep), 2) AS max_todep,
+	ROUND(AVG(todep), 2) AS avg_todep,
+	ROUND(MIN(tosc), 2) AS min_tosc,
+	ROUND(MAX(tosc), 2) AS max_tosc,
+	ROUND(AVG(tosc), 2) AS avg_tosc,
+	ROUND(MIN(toas), 2) AS min_toas,
+	ROUND(MAX(toas), 2) AS max_toas,
+	ROUND(AVG(toas), 2) AS avg_toas
+FROM students
+WHERE inter_dom = 'Inter'
+GROUP BY inter_dom;
+
+# 6. Statistical average diagnostics of International students for todep, tosc and toas ordered by their length of stay in descending to see if length of stay impacts performance
+
+SELECT stay, 
+       ROUND(AVG(todep), 2) AS average_phq, 
+       ROUND(AVG(tosc), 2) AS average_scs, 
+       ROUND(AVG(toas), 2) AS average_as
+FROM students
+WHERE inter_dom = 'Inter'
+GROUP BY stay
+ORDER BY stay DESC;
+
+# 7. For comparison, lets conduct the same analysis on Domestic students
+
+SELECT stay, 
+       ROUND(AVG(todep), 2) AS average_phq, 
+       ROUND(AVG(tosc), 2) AS average_scs, 
+       ROUND(AVG(toas), 2) AS average_as
+FROM students
+WHERE inter_dom = 'Dom'
+GROUP BY stay
+ORDER BY stay DESC;
+
+# Findings:
+
+# Domestic students scored on average higher than international students on the PHQ-9 test (score of depression) and therefore it could be interpreted that domestic students have increased an liklihood of depression. However, this difference is negligable, and it is still unclear how statistically signficant this difference is, more tests are required.
+# The average social connectedness score for domestic and international students is similar, despite international students staying at university for longer durations of time.
+# However, length of stay does appear to impact acculturative stress, with international students scoring significantly higher on average than domestic students, likely due adapting to unfamiliar surroundings, language and more. However, it is still unclear how statistically signficant this difference is, so more tests are required. Interestingly, the gap between the scores of acculturative stress by 5 years at university has closed significantly. It would be interesting to see what contributes to the increase in scores of acculturative stress for domestic students, despite not having to adapt to a new culture like international students do!
