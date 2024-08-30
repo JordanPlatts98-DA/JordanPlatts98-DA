@@ -1,0 +1,29 @@
+# Analysing industry carbon footprint
+
+# When factoring heat generation required for the manufacturing and transportation of products, Greenhouse gas emissions attributable to products, from food to sneakers to appliances, make up more than 75% of global emissions. -The Carbon Catalogue
+# The data, which is publicly available on nature.com, contains product carbon footprints (PCFs) for various companies. PCFs are the greenhouse gas emissions attributable to a given product, measured in CO2 (carbon dioxide equivalent).
+# This data is stored in a PostgreSQL database containing one table, prouduct_emissions, which looks at PCFs by product as well as the stage of production that these emissions occurred.
+
+# Table columns:
+  # id	
+  # year	
+  # product_name	
+  # company	
+  # country	
+  # industry_group	
+  # weight_kg	
+  # carbon_footprint_pcf	
+  # upstream_percent_total_pcf	
+  # operations_percent_total_pcf	
+  # downstream_percent_total_pcf	
+
+# 1. The number of unique companies and their total carbon footprint PCF for each industry group, filtered by the most recent year
+
+SELECT MAX(year)
+FROM product_emissions;
+
+SELECT industry_group, COUNT(DISTINCT company) AS num_companies, ROUND(SUM(carbon_footprint_pcf), 1) AS total_industry_footprint
+FROM product_emissions
+WHERE year IN (SELECT MAX(year) FROM product_emissions)
+GROUP BY industry_group
+ORDER BY total_industry_footprint DESC;
